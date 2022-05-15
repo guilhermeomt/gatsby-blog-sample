@@ -23,35 +23,56 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 
 exports.createPages = ({ graphql, actions }) => {
   const { createPage } = actions;
-  const blogPostTemplate = path.resolve(`./src/templates/blog-post.js`);
-
-  return graphql(
-    `
-      query loadPagesQuery($limit: Int!) {
-        allMarkdownRemark(limit: $limit) {
-          edges {
-            node {
-              fields {
-                slug
-              }
+  return graphql(`
+    {
+      allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
+        edges {
+          node {
+            fields {
+              slug
             }
+            frontmatter {
+              background
+              category
+              date(fromNow: true, locale: "pt-br")
+              description
+              title
+              image
+            }
+            timeToRead
           }
         }
       }
-    `,
-    { limit: 1000 }
-  ).then(result => {
-    if (result.errors) {
-      throw result.errors;
     }
+  `).then(result => {
+    const posts = result.data.allMarkdownRemark.edges;
 
-    // Create blog post pages.
-    result.data.allMarkdownRemark.edges.forEach(edge => {
+    posts.forEach(({ node, next, previous }) => {
       createPage({
-        path: `${edge.node.fields.slug}`,
-        component: blogPostTemplate,
+        path: node.fields.slug,
+        component: path.resolve(`./src/templates/blog-post.js`),
         context: {
-          slug: edge.node.fields.slug,
+          // Data passed to context is available
+          // in page queries as GraphQL variables.
+          slug: node.fields.slug,
+          previousPost: next,
+          nextPost: previous,
+        },
+      });
+    });
+
+    const postsPerPage = 6;
+    const numPages = Math.ceil(posts.length / postsPerPage);
+
+    Array.from({ length: numPages }).forEach((_, index) => {
+      createPage({
+        path: index === 0 ? `/` : `/page/${index + 1}`,
+        component: path.resolve(`./src/templates/blog-list.js`),
+        context: {
+          limit: postsPerPage,
+          skip: index * postsPerPage,
+          numPages,
+          currentPage: index + 1,
         },
       });
     });
