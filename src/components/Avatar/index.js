@@ -1,6 +1,11 @@
 import React from "react";
 import { StaticImage } from "gatsby-plugin-image";
+import { AvatarWrapper } from "./styles";
 
 export const Avatar = () => {
-  return <StaticImage src="../../images/profile.jpg" alt="Profile" />;
+  return (
+    <AvatarWrapper>
+      <StaticImage src="../../images/profile.jpg" alt="Profile" />;
+    </AvatarWrapper>
+  );
 };
