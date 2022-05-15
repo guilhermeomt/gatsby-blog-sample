@@ -1,11 +1,13 @@
 module.exports = {
   siteMetadata: {
     title: `Sample Blog`,
+    position: `Front-end Developer`,
     description: `A blog to practice Gatsby`,
     author: `@guilhermeomt`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-styled-components`,
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -34,4 +36,4 @@ module.exports = {
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
   ],
-}
+};
