@@ -11,18 +11,20 @@ const Profile = () => {
           title
           position
           description
+          author
         }
       }
     }
   `);
 
-  const { title, position, description } = data.site.siteMetadata;
+  const { title, position, description, author } = data.site.siteMetadata;
   return (
     <S.ProfileWrapper>
       <S.ProfileLink>
         <Avatar />
         <S.ProfileAuthor>
           {title}
+          <p>{author}</p>
           <S.ProfilePosition>{position}</S.ProfilePosition>
         </S.ProfileAuthor>
       </S.ProfileLink>
