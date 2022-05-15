@@ -5,7 +5,7 @@ import { AvatarWrapper } from "./styles";
 export const Avatar = () => {
   return (
     <AvatarWrapper>
-      <StaticImage src="../../images/profile.jpg" alt="Profile" />;
+      <StaticImage src="../../images/profile.jpg" alt="Profile" />
     </AvatarWrapper>
   );
 };
