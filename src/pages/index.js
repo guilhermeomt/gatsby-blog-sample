@@ -6,8 +6,8 @@ import Seo from "../components/seo";
 
 const IndexPage = () => {
   const data = useStaticQuery(graphql`
-    query {
-      allMarkdownRemark {
+    query Posts {
+      allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
         edges {
           node {
             fields {
