@@ -1,14 +1,29 @@
 import React from "react";
+import { useStaticQuery, graphql } from "gatsby";
+import { Avatar } from "../Avatar";
 
 const Profile = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          title
+          position
+          description
+          author
+        }
+      }
+    }
+  `);
+
+  const { title, position, description, author } = data.site.siteMetadata;
   return (
     <div className="wrapper">
-      <h1>Guilherme Tavares</h1>
-      <h2>Desenvolvedor Front-end</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aliquam, ipsa
-        aut! Quam nesciunt eveniet facere tenetur itaque praesentium omnis.
-      </p>
+      <Avatar />
+      <h1>{title}</h1>
+      <span>{author}</span>
+      <h2>{position}</h2>
+      <p>{description}</p>
     </div>
   );
 };
